@@ -1,0 +1,226 @@
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        
+        <!--Для отслеживания положения geo.js и geo_position_js_simulator.js для симуляции gps-->
+        <script src="http://geo-location-javascript.googlecode.com/svn/trunk/js/geo.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://geo-location-javascript.googlecode.com/svn/trunk/js/geo_position_js_simulator.js" type="text/javascript" charset="utf-8"></script>
+        <!-- Загружаем API-->
+        <script src="http://yandex.st/jquery/1.8.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="http://api-maps.yandex.ru/2.0/?lang=ru-RU&coordorder=longlat&load=package.full" type="text/javascript" charset="utf-8"></script>
+            <script type="text/javascript" charset="utf-8">
+        // Как только будет загружен API и готов DOM, выполняем инициализацию
+        ymaps.ready(init);
+
+        function init () {
+            var myMap = new ymaps.Map('map', {
+                    center: [59.82269985859344, 58.22106872314885], zoom: 18, type: "yandex#hybrid"
+                });
+
+            // Для добавления элемента управления на карту
+            // используется поле controls, ссылающееся на
+            // коллекцию элементов управления картой.
+            // Добавление элемента в коллекцию производится
+            // с помощью метода add().
+
+            // В метод add можно передать строковый идентификатор
+            // элемента управления и его параметры.
+            myMap.controls
+                // Кнопка изменения масштаб
+                
+                // Кнопка изменения масштаба - компактный вариант
+                // Расположим её справа
+                .add('smallZoomControl', { right: 3, top: 50 })
+                // Стандартный набор кнопок
+                .add('mapTools');
+
+          myMap.geoObjects
+        .add(new ymaps.Placemark([59.82317192737864, 58.220740392777465], {
+            balloonContent: "Вася пупкин",
+            iconContent: "1"
+        }, {
+            preset: "twirl#whiteIcon"
+        }))
+        .add(new ymaps.Placemark([59.821626974987446, 58.22148762211284], {
+            balloonContent: "я"
+        }, {
+            preset: "twirl#lightblueDotIcon"
+        }))
+        .add(new ymaps.Placemark([59.82261402790496, 58.220378095059374], {
+            balloonContent: "чувак из вашей команды)",
+            iconContent: "2"
+        }, {
+            preset: "twirl#whiteIcon"
+        }));
+            
+        }
+    
+    </script>
+    
+    <script type="text/javascript" charset="utf-8">
+            window.onload = function(){
+                (function(){
+                    var date = new Date(), cl = document.getElementById('clock');
+                    cl.innerHTML = date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+                    window.setTimeout(arguments.callee, 1);
+                })();
+            };
+    </script>
+
+    <style type="text/css">
+    
+        /*Reset*/
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        /*Style*/
+
+        #body {
+
+            margin:auto;
+            width:100%;
+            height:100%;
+            overflow:hidden;
+        }
+
+        #head {
+
+            height: 4%;
+            width:100%; 
+            color:blue;
+        }
+
+        #clock {
+
+            font-size: 90%;
+            width: 20%;
+            height:3%;
+            float:left;
+        }
+
+        #mission {
+
+            width: 60%;
+            height:3%;
+            text-align:right;
+            float:right;
+            font-size: 90%;
+        }
+
+        #map {
+
+            width:100%;
+            height:85%;
+        }
+
+        #footer {
+
+            width:100%;
+            height:7%;
+            
+        }
+
+        #buttom_all {
+
+            padding: auto;
+            width:30%;
+            float:left;
+        }
+
+        #buttom_all p {
+
+            font-size: 90%;
+            text-align:center;
+        }
+
+        #chat {
+
+            height: 5%;
+            width:70%;
+            float:right;
+        }
+
+        /*Media queri*/
+
+        @media screen and (max-width: 480px) {
+            
+            #body {
+
+               font-size: 40%;
+            }
+        }
+    </style>
+    </head>
+    <body>
+        <div id="head">
+    	   <div id="clock"></div>
+           <div id="GpsPosition"><script type="text/javascript">
+                if (navigator.geolocation) {
+                     var timeoutVal = 10 * 1000 * 1000;
+                     navigator.geolocation.getCurrentPosition(
+                      displayPosition,
+                      displayError,
+                      { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
+                    );
+                }
+                else {
+                    alert("Geolocation не поддерживается данным браузером");
+                }
+
+                function displayPosition(position) {
+                    alert("Широта: " + position.coords.latitude + ", Долгота: " + position.coords.longitude);
+                }
+        </script></div>
+    	   <div id="mission">  Убить всех человеков</div>
+        </div>
+    	<div id="map"></div>
+            <div id="footer">	
+                <div id="buttom_all"><p><button>Ответить</button><button>бла бла</button><button>бла</button></div></p>
+               	<div id="chat">
+    			<div id="from">От:Шатателя</div>
+    			<div id="message">Я твой штаб труба шатал. XD </div>
+            </div>
+    	</div>
+    </body>
+</html> 
